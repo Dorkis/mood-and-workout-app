@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'mood-workout-app';
+  title = 'Your best mood and workout application is waiting for your move!';
 }
