@@ -1,0 +1,15 @@
+.mood {
+
+  & .result {
+    display: flex;
+    flex-direction: row;
+    height: 5rem;
+    background-color: aqua;
+
+    &>* {
+      margin: auto;
+      cursor: pointer;
+    }
+  }
+
+}

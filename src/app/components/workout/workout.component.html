@@ -1,0 +1,40 @@
+<div>
+  <h2>Choose your activity</h2>
+
+  <!-- Light selector: sleep, walk -->
+  <form [formGroup]="selectionForm" (ngSubmit)="$event.preventDefault()">
+    <label for="activity">Activity</label>
+
+    <select id="activity" formControlName="activity" (change)="onActivityChange()" *ngIf="showLightSelector; else intenseTpl">
+      <option value="" disabled selected>Select activity</option>
+      <option *ngFor="let a of lightActivities" [value]="a">{{ a }}</option>
+    </select>
+
+    <ng-template #intenseTpl>
+      <select id="activity" formControlName="activity" (change)="onActivityChange()">
+        <option value="" disabled selected>Select activity</option>
+        <option *ngFor="let a of intenseActivities" [value]="a">{{ a }}</option>
+      </select>
+    </ng-template>
+  </form>
+
+  <!-- Details form appears after activity selected -->
+  <form [formGroup]="detailsForm" (ngSubmit)="onSubmitDetails()" *ngIf="selectedActivity">
+    <div>
+      <label for="time">Time (minutes)</label>
+      <input id="time" type="number" formControlName="time" min="1" />
+    </div>
+
+    <div *ngIf="shouldShowDistance">
+      <label for="distance">Distance (km)</label>
+      <input id="distance" type="number" formControlName="distance" step="0.1" min="0.1" />
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <pre>
+    Selected mood: {{ userMood }}
+    Selected activity: {{ selectedActivity }}
+  </pre>
+</div>

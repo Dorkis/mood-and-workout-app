@@ -1,0 +1,12 @@
+<div class="mood">
+  <section class="description">
+    <h2>{{ description }}</h2>
+  </section>
+  <section class="result">
+    @for(mood of moodOptionsList; track $index) {
+    <div class="mood-{{mood.id}}" (click)="saveMood(mood.id)">
+      {{mood.title}}
+    </div>
+    }
+  </section>
+</div>
