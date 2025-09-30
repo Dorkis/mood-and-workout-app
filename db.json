@@ -1,0 +1,56 @@
+{
+  "moods": [
+    {
+      "id": 0,
+      "title": "Very Good",
+      "description": "You are in very good mood",
+      "photo": "",
+      "value": 10
+    },
+    {
+      "id": 1,
+      "title": "Good",
+      "description": "You are in good mood",
+      "photo": "",
+      "value": 8
+    },
+    {
+      "id": 2,
+      "title": "so so",
+      "description": "You are in so so mood",
+      "photo": "",
+      "value": 6
+    },
+    {
+      "id": 3,
+      "title": "bad",
+      "description": "You are in bad mood",
+      "photo": "",
+      "value": 4
+    },
+    {
+      "id": 4,
+      "title": "very bad",
+      "description": "You are in very bad mood",
+      "photo": "",
+      "value": 2
+    },
+    {
+      "id": 5,
+      "title": "terrible",
+      "description": "You are in terrible mood",
+      "photo": "",
+      "value": 0
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Dorota Sajdak",
+      "email": "test@test.com",
+      "createdAt": "2025-10-01T09:33:29.567Z",
+      "todayMood": null
+    }
+  ],
+  "workouts": []
+}

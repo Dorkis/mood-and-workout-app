@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { environment } from './environments/environment';
 
 
 @Component({
@@ -10,4 +11,5 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'Your best mood and workout application is waiting for your move!';
+  userId = environment.userId;
 }

@@ -17,11 +17,13 @@ export class MoodComponent {
   userService: UsersService = inject(UsersService);
 
   constructor(private router: Router) {
-    this.moodOptionsList = this.moodService.getAllMoods();
+    this.moodService.getAllMoods().then((moodOptionsList: Moodoptions[]) => {
+      this.moodOptionsList = moodOptionsList;
+    });
   }
 
   async saveMood(todayMood: number) {
-    if(await this.userService.saveUserMood(todayMood)) {
+    if (await this.userService.saveUserMood(todayMood)) {
       this.router.navigate(['/workout']);
     }
 
