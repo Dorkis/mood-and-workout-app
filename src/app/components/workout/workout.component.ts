@@ -14,7 +14,6 @@ export class WorkoutComponent {
   userMood = this.user.getUserMood();
   private formBuilder: FormBuilder = inject(FormBuilder);
 
-  // Forms
   selectionForm: FormGroup = this.formBuilder.group({
     activity: new FormControl<string | null>(null, { nonNullable: false, validators: [Validators.required] })
   });
@@ -24,17 +23,15 @@ export class WorkoutComponent {
     distance: new FormControl<number | null>(null)
   });
 
-  // Activity sets
   lightActivities: string[] = ['sleep', 'walk'];
   intenseActivities: string[] = ['run', 'bike', 'swim', 'stretch'];
 
-  // UI state
   get showLightSelector(): boolean {
-    // Lower mood -> suggest lighter activities
     if (this.userMood === null || this.userMood === undefined) return true;
     return this.userMood <= 6;
   }
-
+  
+  
   get selectedActivity(): string | null {
     return this.selectionForm.get('activity')?.value ?? null;
   }
@@ -47,7 +44,7 @@ export class WorkoutComponent {
 
   onActivityChange(): void {
     const activity = this.selectedActivity;
-    // Toggle distance validator depending on activity
+
     const distanceControl = this.detailsForm.get('distance');
     if (!distanceControl) return;
     if (activity && ['run', 'bike', 'swim', 'walk'].includes(activity)) {

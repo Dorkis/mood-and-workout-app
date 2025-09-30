@@ -1,7 +1,6 @@
 <div>
   <h2>Choose your activity</h2>
 
-  <!-- Light selector: sleep, walk -->
   <form [formGroup]="selectionForm" (ngSubmit)="$event.preventDefault()">
     <label for="activity">Activity</label>
 
@@ -18,7 +17,6 @@
     </ng-template>
   </form>
 
-  <!-- Details form appears after activity selected -->
   <form [formGroup]="detailsForm" (ngSubmit)="onSubmitDetails()" *ngIf="selectedActivity">
     <div>
       <label for="time">Time (minutes)</label>
