@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
+import { WorkoutsService } from '../../services/workouts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout',
@@ -11,7 +13,20 @@ import { UsersService } from '../../services/users.service';
 })
 export class WorkoutComponent {
   user: UsersService = inject(UsersService);
-  userMood = this.user.getUserMood();
+  workout: WorkoutsService = inject(WorkoutsService);
+  userMood: number | null = null;
+
+  constructor(private router: Router){}
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  private async loadData() {
+    const data = await this.user.getUserMood();
+    this.userMood = data
+  }
+
   private formBuilder: FormBuilder = inject(FormBuilder);
 
   selectionForm: FormGroup = this.formBuilder.group({
@@ -56,22 +71,26 @@ export class WorkoutComponent {
     distanceControl.updateValueAndValidity({ emitEvent: false });
   }
 
-  onSubmitDetails(): void {
+  async onSubmitDetails(): Promise<void> {
     if (!this.selectionForm.valid || !this.detailsForm.valid) {
       this.selectionForm.markAllAsTouched();
       this.detailsForm.markAllAsTouched();
       return;
     }
+    const currentUser = await this.user.getCurrentUser();
+    if (!currentUser) {
+      return;
+    }
     const payload = {
-      mood: this.userMood,
-      activity: this.selectedActivity,
-      time: this.detailsForm.get('time')?.value,
-      distance: this.detailsForm.get('distance')?.value ?? null,
+      id: Math.floor(Math.random() * 1000000) + 1,
+      user: currentUser,
+      category: this.selectedActivity as string,
+      duration: this.detailsForm.get('time')?.value as number,
+      distance: (this.detailsForm.get('distance')?.value ?? null) as number | null,
     };
-    console.log('Workout submission:', payload);
-  }
-
-  constructor() {
-    console.log(this.userMood);
+    const response = await this.workout.addWorkout(payload);
+    if(response) {
+      this.router.navigate(['/user/', currentUser.id]);
+    }
   }
 }

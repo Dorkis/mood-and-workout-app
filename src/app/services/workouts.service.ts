@@ -10,17 +10,27 @@ export class WorkoutsService {
   constructor() { }
 
   async getWorkoutByUserId(userId: number): Promise<Workout[]> {
-    const data = await fetch(environment.workoutUrl);
-    const workouts = await data.json();
-    if (workouts) {
-      workouts.map((workout: Workout) => {
-        return userId === workout.user.id;
-      })
+    try {
+      const response = await fetch(`${environment.workoutUrl}?user.id=${userId}`);
+      if (!response.ok) {
+        return [];
+      }
+      const workouts: Workout[] = await response.json();
+      return workouts ?? [];
+    } catch (_error) {
+      return [];
     }
-    return []
   }
-  async addWorkout(workout: Workout[]): Promise<boolean> {
-    
-    return true;
+  async addWorkout(workout: Workout): Promise<boolean> {
+    try {
+      const response = await fetch(environment.workoutUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(workout)
+      });
+      return response.ok;
+    } catch (_error) {
+      return false;
+    }
   }
 }
