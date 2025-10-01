@@ -2,18 +2,26 @@
   <h2>Choose your activity</h2>
 
   <form [formGroup]="selectionForm" (ngSubmit)="$event.preventDefault()">
-    <label for="activity">Activity</label>
+    <label>Activities</label>
 
-    <select id="activity" formControlName="activity" (change)="onActivityChange()" *ngIf="showLightSelector; else intenseTpl">
-      <option value="" disabled selected>Select activity</option>
-      <option *ngFor="let a of lightActivities" [value]="a">{{ a }}</option>
-    </select>
+    <ng-container *ngIf="showLightSelector; else intenseTpl">
+      <div class="activity-radio-group">
+        <label *ngFor="let a of lightActivities" class="activity-radio">
+          <input type="radio" formControlName="activity" [value]="a" (change)="onActivityChange()" />
+          <img [src]="a+'.png'" [alt]="a"  />
+          <span>{{ a }}</span>
+        </label>
+      </div>
+    </ng-container>
 
     <ng-template #intenseTpl>
-      <select id="activity" formControlName="activity" (change)="onActivityChange()">
-        <option value="" disabled selected>Select activity</option>
-        <option *ngFor="let a of intenseActivities" [value]="a">{{ a }}</option>
-      </select>
+      <div class="activity-radio-group">
+        <label *ngFor="let a of intenseActivities" class="activity-radio">
+          <input type="radio" formControlName="activity" [value]="a" (change)="onActivityChange()" />
+          <img [src]=" a + '.png'" [alt]="a" />
+          <span>{{ a }}</span>
+        </label>
+      </div>
     </ng-template>
   </form>
 

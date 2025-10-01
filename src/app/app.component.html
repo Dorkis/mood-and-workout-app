@@ -1,12 +1,14 @@
 <main class="main">
   <header>
-    <a [routerLink]="['/']">Home</a>
-    <a [routerLink]="['/user/', userId ]">Your workouts</a>
+    <nav>
+      <ul>
+        <li><a [routerLink]="['/']">Home</a></li>
+        <li><a [routerLink]="['/user/', userId ]">Your workouts</a></li>
+      </ul>
+    </nav>
+    <h1>{{ title }}</h1>
   </header>
   <div class="content">
-    <h1>{{ title }}</h1>
-
     <router-outlet />
-
   </div>
 </main>

@@ -4,8 +4,9 @@
   </section>
   <section class="result">
     @for(mood of moodOptionsList; track $index) {
-    <div class="mood-{{mood.id}}" (click)="saveMood(mood.value)">
-      {{mood.title}}
+    <div class="result__options result__options-{{mood.id}}" (click)="saveMood(mood.value)">
+      <p>{{mood.title}}</p>
+      <img [src]=mood.photo class="result__photo" [alt]=mood.title/>
     </div>
     }
   </section>

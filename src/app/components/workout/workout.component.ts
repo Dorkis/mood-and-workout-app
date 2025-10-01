@@ -39,7 +39,7 @@ export class WorkoutComponent {
   });
 
   lightActivities: string[] = ['sleep', 'walk'];
-  intenseActivities: string[] = ['run', 'bike', 'swim', 'stretch'];
+  intenseActivities: string[] = ['run', 'bike', 'swim', 'stretching'];
 
   get showLightSelector(): boolean {
     if (this.userMood === null || this.userMood === undefined) return true;
@@ -87,6 +87,7 @@ export class WorkoutComponent {
       category: this.selectedActivity as string,
       duration: this.detailsForm.get('time')?.value as number,
       distance: (this.detailsForm.get('distance')?.value ?? null) as number | null,
+      createdAt: new Date()
     };
     const response = await this.workout.addWorkout(payload);
     if(response) {

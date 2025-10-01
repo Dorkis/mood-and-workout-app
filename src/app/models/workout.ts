@@ -5,5 +5,6 @@ export interface Workout {
   user: User,
   category: string,
   duration: number,
-  distance: number | null
+  distance: number | null,
+  createdAt: Date
 }

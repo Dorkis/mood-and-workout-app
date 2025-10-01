@@ -3,13 +3,30 @@
   & .result {
     display: flex;
     flex-direction: row;
-    height: 5rem;
+    height: 10rem;
     background-color: aqua;
+
+    &__options {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 1rem;
+      
+    }
+
+    &__photo {
+      width: 3.5rem;
+      height: 3.5rem;
+      transition: all .2s;
+
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
 
     &>* {
       margin: auto;
       cursor: pointer;
     }
   }
-
 }

@@ -11,7 +11,7 @@ import { UsersService } from '../../services/users.service';
   styleUrl: './mood.component.scss'
 })
 export class MoodComponent {
-  description: string = "choose how you feel today";
+  description: string = "choose how do you feel today";
   moodOptionsList: Moodoptions[] = [];
   moodService: MoodsService = inject(MoodsService);
   userService: UsersService = inject(UsersService);

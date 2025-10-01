@@ -7,22 +7,7 @@ import { environment } from '../environments/environment';
 })
 export class UsersService {
 
-  constructor() {
-
-  }
-
-  // protected userList: User[] = [
-  //   {
-  //     "id": 1,
-  //     "name": "Dorota Sajdak",
-  //     "email": "test@test.com",
-  //     "createdAt": "2025-10-01T09:33:29.567Z",
-  //     "todayMood": null
-  //   }
-  // ]
-
-  // protected userId: number = this.userList[0].id;
-  // protected userMood: number | null = this.userList[0].todayMood;
+  constructor() {}
 
   async saveUserMood(mood: number): Promise<boolean> {
     const userId = environment.userId;
