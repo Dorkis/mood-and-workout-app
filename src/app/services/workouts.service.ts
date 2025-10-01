@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Workout } from '../models/workout';
 import { environment } from '../environments/environment';
 
@@ -6,31 +9,25 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class WorkoutsService {
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  async getWorkoutByUserId(userId: number): Promise<Workout[]> {
-    try {
-      const response = await fetch(`${environment.workoutUrl}?user.id=${userId}`);
-      if (!response.ok) {
-        return [];
-      }
-      const workouts: Workout[] = await response.json();
-      return workouts ?? [];
-    } catch (_error) {
-      return [];
-    }
+  getWorkoutByUserId(userId: number): Observable<Workout[]> {
+    return this.http
+      .get<Workout[]>(`${environment.workoutUrl}?user.id=${userId}`)
+      .pipe(
+        map(workouts => workouts ?? []),
+        catchError(() => of([]))
+      );
   }
-  async addWorkout(workout: Workout): Promise<boolean> {
-    try {
-      const response = await fetch(environment.workoutUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(workout)
-      });
-      return response.ok;
-    } catch (_error) {
-      return false;
-    }
+
+  addWorkout(workout: Workout): Observable<boolean> {
+    return this.http
+      .post(environment.workoutUrl, workout, {
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
   }
 }

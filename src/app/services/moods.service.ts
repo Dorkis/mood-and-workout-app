@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Moodoptions } from '../models/moodoptions';
 import { environment } from '../environments/environment';
 
@@ -7,9 +10,13 @@ import { environment } from '../environments/environment';
 })
 export class MoodsService {
 
-  async getAllMoods(): Promise<Moodoptions[]> {
-    const data = await fetch(environment.moodUrl);
-    return (await data.json() ?? []);
-  }
+  constructor(private http: HttpClient) { }
 
+  getAllMoods(): Observable<Moodoptions[]> {
+    return this.http.get<Moodoptions[]>(environment.moodUrl)
+      .pipe(
+        map(data => data ?? []),
+        catchError(() => of([]))
+      );
+  }
 }

@@ -4,49 +4,61 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { UsersService } from '../../services/users.service';
 import { WorkoutsService } from '../../services/workouts.service';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, tap } from 'rxjs/operators';
+import { User } from '../../models/user';
+import { Workout } from '../../models/workout';
 
 @Component({
   selector: 'app-workout',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './workout.component.html',
-  styleUrl: './workout.component.scss'
+  styleUrls: ['./workout.component.scss']
 })
 export class WorkoutComponent {
-  user: UsersService = inject(UsersService);
-  workout: WorkoutsService = inject(WorkoutsService);
-  userMood: number | null = null;
+  private userService = inject(UsersService);
+  private workoutsService = inject(WorkoutsService);
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
 
-  constructor(private router: Router){}
+  userMood$: Observable<number | null> = this.userService.getUserMood();
+  currentUser$: Observable<User | null> = this.userService.getCurrentUser();
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
-  private async loadData() {
-    const data = await this.user.getUserMood();
-    this.userMood = data
-  }
-
-  private formBuilder: FormBuilder = inject(FormBuilder);
-
-  selectionForm: FormGroup = this.formBuilder.group({
-    activity: new FormControl<string | null>(null, { nonNullable: false, validators: [Validators.required] })
+  // Forms
+  selectionForm: FormGroup = this.fb.group({
+    activity: new FormControl<string | null>(null, { validators: [Validators.required] })
   });
 
-  detailsForm: FormGroup = this.formBuilder.group({
-    time: new FormControl<number | null>(null, { nonNullable: false, validators: [Validators.required, Validators.min(1)] }),
+  detailsForm: FormGroup = this.fb.group({
+    time: new FormControl<number | null>(null, { validators: [Validators.required, Validators.min(1)] }),
     distance: new FormControl<number | null>(null)
   });
 
   lightActivities: string[] = ['sleep', 'walk'];
   intenseActivities: string[] = ['run', 'bike', 'swim', 'stretching'];
 
-  get showLightSelector(): boolean {
-    if (this.userMood === null || this.userMood === undefined) return true;
-    return this.userMood <= 6;
+  constructor() {
+    // Dynamic distance validators
+    this.selectionForm.get('activity')?.valueChanges.subscribe(activity => {
+      const distanceControl = this.detailsForm.get('distance');
+      if (!distanceControl) return;
+      if (activity && ['run', 'bike', 'swim', 'walk'].includes(activity)) {
+        distanceControl.setValidators([Validators.required, Validators.min(0.1)]);
+      } else {
+        distanceControl.clearValidators();
+        distanceControl.setValue(null);
+      }
+      distanceControl.updateValueAndValidity({ emitEvent: false });
+    });
   }
-  
-  
+
+  get showLightSelector(): Observable<boolean> {
+    return this.userMood$.pipe(
+      map(mood => mood === null || mood === undefined ? true : mood <= 6)
+    );
+  }
+
   get selectedActivity(): string | null {
     return this.selectionForm.get('activity')?.value ?? null;
   }
@@ -57,41 +69,34 @@ export class WorkoutComponent {
     return ['run', 'bike', 'swim', 'walk'].includes(activity);
   }
 
-  onActivityChange(): void {
-    const activity = this.selectedActivity;
-
-    const distanceControl = this.detailsForm.get('distance');
-    if (!distanceControl) return;
-    if (activity && ['run', 'bike', 'swim', 'walk'].includes(activity)) {
-      distanceControl.addValidators([Validators.required, Validators.min(0.1)]);
-    } else {
-      distanceControl.clearValidators();
-      distanceControl.setValue(null);
-    }
-    distanceControl.updateValueAndValidity({ emitEvent: false });
-  }
-
-  async onSubmitDetails(): Promise<void> {
+  onSubmitDetails(): void {
     if (!this.selectionForm.valid || !this.detailsForm.valid) {
       this.selectionForm.markAllAsTouched();
       this.detailsForm.markAllAsTouched();
       return;
     }
-    const currentUser = await this.user.getCurrentUser();
-    if (!currentUser) {
-      return;
-    }
-    const payload = {
-      id: Math.floor(Math.random() * 1000000) + 1,
-      user: currentUser,
-      category: this.selectedActivity as string,
-      duration: this.detailsForm.get('time')?.value as number,
-      distance: (this.detailsForm.get('distance')?.value ?? null) as number | null,
-      createdAt: new Date()
-    };
-    const response = await this.workout.addWorkout(payload);
-    if(response) {
-      this.router.navigate(['/user/', currentUser.id]);
-    }
+
+    this.currentUser$.pipe(
+      switchMap(user => {
+        if (!user) return of(false);
+
+        const payload: Workout = {
+          id: Math.floor(Math.random() * 1000000) + 1,
+          user: user,
+          category: this.selectedActivity as string,
+          duration: this.detailsForm.get('time')?.value as number,
+          distance: this.detailsForm.get('distance')?.value ?? null,
+          createdAt: new Date()
+        };
+
+        return this.workoutsService.addWorkout(payload);
+      })
+    ).subscribe(success => {
+      if (success) {
+        this.currentUser$.subscribe(user => {
+          if(user) this.router.navigate(['/user/', user.id]);
+        });
+      }
+    });
   }
 }

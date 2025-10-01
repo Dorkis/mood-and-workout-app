@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/user';
 import { environment } from '../environments/environment';
 
@@ -7,50 +10,32 @@ import { environment } from '../environments/environment';
 })
 export class UsersService {
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  async saveUserMood(mood: number): Promise<boolean> {
+  saveUserMood(mood: number): Observable<boolean> {
     const userId = environment.userId;
-    try {
-      const response = await fetch(`${environment.userUrl}/${userId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({todayMood: mood})
-      });
-      if (!response.ok) {
-        return false;
-      }
-        return true;
-    } catch (_error) {
-      return false;
-    }
+    return this.http.patch(`${environment.userUrl}/${userId}`, { todayMood: mood })
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
   }
 
-  async getCurrentUser(): Promise<User | null> {
+  getCurrentUser(): Observable<User | null> {
     const userId = environment.userId;
-    try {
-      const response = await fetch(`${environment.userUrl}/${userId}`);
-      if (!response.ok) {
-        return null;
-      }
-      const user: User = await response.json();
-      return user ?? null;
-    } catch (_error) {
-      return null;
-    }
+    return this.http.get<User>(`${environment.userUrl}/${userId}`)
+      .pipe(
+        map(user => user ?? null),
+        catchError(() => of(null))
+      );
   }
 
-  async getUserMood(): Promise<number | null> {
+  getUserMood(): Observable<number | null> {
     const userId = environment.userId;
-    try {
-      const response = await fetch(`${environment.userUrl}/${userId}`);
-      if (!response.ok) {
-        return null;
-      }
-      const user: User = await response.json();
-      return user.todayMood ?? null;
-    } catch (_error) {
-      return null;
-    }
+    return this.http.get<User>(`${environment.userUrl}/${userId}`)
+      .pipe(
+        map(user => user.todayMood ?? null),
+        catchError(() => of(null))
+      );
   }
 }

@@ -1,1 +1,20 @@
-<p>user works!</p>
+<div class="user-container">
+  <h2>User Workouts</h2>
+
+  <div class="sort-control" *ngIf="categories$ | async as categories">
+    <label>Filter by category:</label>
+    <select [formControl]="sortControl">
+      <option value="">-- All --</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat | titlecase }}</option>
+    </select>
+  </div>
+
+  <ul class="workout-list">
+    <li *ngFor="let workout of sortedWorkouts$ | async; trackBy: trackByWorkout">
+      <strong>{{ workout.category }}</strong> - 
+      Duration: {{ workout.duration }} min
+      <span *ngIf="workout.distance">- Distance: {{ workout.distance }} km</span>
+      <div class="created-at">Created at: {{ workout.createdAt | date:'short' }}</div>
+    </li>
+  </ul>
+</div>
