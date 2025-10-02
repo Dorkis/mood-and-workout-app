@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-width: 480px;
+  max-width: 60rem;
   margin: 2rem auto;
   padding: 1rem;
 
   h2 {
     font-size: 2.2rem;
     font-weight: 600;
-    color: #1f2937; // slate-800
+    color: #1f2937;
     text-align: center;
   }
 
@@ -21,26 +21,26 @@
     label {
       font-size: 1.6rem;
       font-weight: 500;
-      color: #374151; // slate-700
+      color: #374151;
     }
 
     select {
       padding: 0.6rem 1rem;
-      border: 1px solid #d1d5db; // gray-300
+      border: 1px solid #d1d5db;
       border-radius: 0.75rem;
       font-size: 1.6rem;
-      color: #111827; // gray-900
+      color: #111827;
       background-color: #fff;
       transition: border-color 0.2s, box-shadow 0.2s;
 
       &:focus {
         outline: none;
-        border-color: #6366f1; // indigo-500
+        border-color: #6366f1;
         box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
       }
 
       &:hover {
-        border-color: #9ca3af; // gray-400
+        border-color: #9ca3af;
       }
     }
   }
@@ -55,9 +55,9 @@
       flex-direction: column;
       gap: 0.3rem;
       padding: 0.8rem 1rem;
-      border: 1px solid #d1d5db; // gray-300
+      border: 1px solid #d1d5db;
       border-radius: 0.75rem;
-      background-color: #f9fafb; // gray-50
+      background-color: #f9fafb;
       transition: transform 0.2s, box-shadow 0.2s;
 
       &:hover {
@@ -78,18 +78,18 @@
 
       strong {
         font-size: 1.6rem;
-        color: #111827; // gray-900
+        color: #111827; 
         align-self: center;
       }
 
       span {
         font-size: 1.4rem;
-        color: #374151; // slate-700
+        color: #374151; 
       }
 
       .created-at {
         font-size: 1.2rem;
-        color: #6b7280; // gray-500
+        color: #6b7280; 
       }
     }
   }
@@ -104,11 +104,11 @@
     transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, color 0.2s;
 
     &.edit {
-      background-color: #6366f1; // indigo-500
+      background-color: #6366f1;
       color: #fff;
 
       &:hover {
-        background-color: #4f46e5; // indigo-600
+        background-color: #4f46e5;
         transform: translateY(-1px);
         box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
       }
@@ -120,11 +120,11 @@
     }
 
     &.delete {
-      background-color: #ef4444; // red-500
+      background-color: #ef4444;
       color: #fff;
 
       &:hover {
-        background-color: #dc2626; // red-600
+        background-color: #dc2626;
         transform: translateY(-1px);
         box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
       }

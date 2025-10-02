@@ -26,7 +26,6 @@ getLastUserMood(userId: number): Observable<Mood[]> {
     .pipe(
       map(data => {
         if (!data || data.length === 0) return [];
-
         let latest = data[0];
         for (let i = 1; i < data.length; i++) {
           const currentDate = new Date(data[i].createdAt).getTime();

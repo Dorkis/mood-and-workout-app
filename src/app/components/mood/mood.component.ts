@@ -33,7 +33,7 @@ export class MoodComponent implements OnInit {
   ]).pipe(
     map(([userMood, moods]) => {
       if (!userMood || userMood.length === 0 || moods.length === 0) return null;
-      return moods.find(m => m.id === userMood[0].moodId) ?? null;
+      return moods.find(m => Number(m.id) === Number(userMood[0].moodId)) ?? null;
     })
   );
 

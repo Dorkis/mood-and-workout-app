@@ -1,5 +1,3 @@
-import { User } from "./user"
-
 export interface Workout {
   id: number,
   userId: number,
