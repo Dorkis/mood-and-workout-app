@@ -41,7 +41,7 @@ export class MoodComponent implements OnInit {
     this.selectedMood$.subscribe({
       next: (data) => {
         if (data === null) {
-          this.showMoodSelection = false;
+          this.showMoodSelection = true;
         }
         this.loading = false;
       },

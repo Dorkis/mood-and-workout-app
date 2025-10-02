@@ -27,7 +27,8 @@ export class WorkoutsService {
   }
 
   addWorkout(workout: Workout): Observable<boolean> {
-    return this.http.post(environment.workoutUrl, workout, {
+    let workoutChanged = {...workout, id: workout.id.toString()};
+    return this.http.post(environment.workoutUrl, workoutChanged, {
       headers: { 'Content-Type': 'application/json' }
     }).pipe(
       map(() => true),

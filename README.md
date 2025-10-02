@@ -1,59 +1,77 @@
-# MoodWorkoutApp
+# Mood & Workout Angular App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.17.
+## Overview
+The **Mood & Workout** application is an Angular project designed to demonstrate dynamic form rendering based on user choices. Users can select a mood, then add workouts depending on mood, showcasing the flexibility of Angular forms and conditional rendering.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
+- **Mood Selection:** Choose from various moods upon entering the application.
+- **Dynamic Workouts:** Add workouts that vary depending on the selected mood.
+- **Workout Details:** Each workout can include:
+  - **Category** (e.g., run, bike, swim, walk, stretch, sleep)
+  - **Time**
+  - **Distance** (only shows up for some categories e.g., run, bike, swim, walk)
+- **Edit & Delete:** Update or remove workouts using Angular dialogs.
+- **Single User:** Only one pre-configured user exists, and all actions are restricted to this account.
+- **Local Database:** All data is stored locally in `db.json` for demonstration purposes.
+
+---
+
+
+## Application Routes
+The app includes three main routes:
+
+| Route                | Description                                 |
+|----------------------|---------------------------------------------|
+| `/`                  | Home page                                   |
+| `/workout`           | Form to add a new workout                   |
+| `/user/:id`          | Display workouts for a specific user        |
+
+---
+
+## Project Structure
+
+src/
+│
+├── app/
+│ ├── components/ # Angular components (Mood, Workout, User, Workout-edit-dialog)
+│ ├── services/ # Services for data management
+│ ├── models/ # TypeScript interfaces (Workout, User, Moodoptions, Mood)
+│ ├── environments/ # Environment variables to manage urls and userId
+│ └── db.json # Local database for demonstration
+│
+├── public/ # Photos
+│ 
+
+---
+
+## Technologies Used
+- **Angular**
+- **Angular Material** – for dialogs and UI components
+- **JSON Server** – to simulate a local database (`db.json`)
+
+---
+
+## Installation & Setup
+1. **Clone the repository**
 
 ```bash
-ng serve
-```
+git clone git@github.com:Dorkis/mood-and-workout-app.git
+cd mood-workout-app
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2. **Install dependencies**
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. **Run application**
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+This will start development server and run local JSON server.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`.

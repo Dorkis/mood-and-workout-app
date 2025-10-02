@@ -90,7 +90,7 @@ export class WorkoutComponent {
 
         const payload: Workout = {
           id: Math.floor(Math.random() * 1000000) + 1,
-          userId: user.id,
+          userId: Number(user.id),
           category: this.selectedActivity as string,
           duration: this.detailsForm.get('time')?.value as number,
           distance: this.detailsForm.get('distance')?.value ?? null,
