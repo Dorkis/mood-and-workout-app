@@ -8,6 +8,9 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { User } from '../../models/user';
 import { Workout } from '../../models/workout';
+import { MoodsService } from '../../services/moods.service';
+import { environment } from '../../environments/environment';
+import { Mood } from '../../models/mood';
 
 @Component({
   selector: 'app-workout',
@@ -19,13 +22,16 @@ import { Workout } from '../../models/workout';
 export class WorkoutComponent {
   private userService = inject(UsersService);
   private workoutsService = inject(WorkoutsService);
+  private moodService = inject(MoodsService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
-  userMood$: Observable<number | null> = this.userService.getUserMood();
+  userId: number = environment.userId;
+  errorMessage: string | null = null;
+
+  userMood$: Observable<Mood[]> = this.moodService.getLastUserMood(this.userId);
   currentUser$: Observable<User | null> = this.userService.getCurrentUser();
 
-  // Forms
   selectionForm: FormGroup = this.fb.group({
     activity: new FormControl<string | null>(null, { validators: [Validators.required] })
   });
@@ -39,7 +45,6 @@ export class WorkoutComponent {
   intenseActivities: string[] = ['run', 'bike', 'swim', 'stretching'];
 
   constructor() {
-    // Dynamic distance validators
     this.selectionForm.get('activity')?.valueChanges.subscribe(activity => {
       const distanceControl = this.detailsForm.get('distance');
       if (!distanceControl) return;
@@ -53,11 +58,12 @@ export class WorkoutComponent {
     });
   }
 
-  get showLightSelector(): Observable<boolean> {
-    return this.userMood$.pipe(
-      map(mood => mood === null || mood === undefined ? true : mood <= 6)
-    );
-  }
+  showLightSelector$: Observable<boolean> = this.userMood$.pipe(
+    map(mood => {
+      return mood[0] === null || mood[0] === undefined ? true : mood[0].moodId >= 3
+    }
+    )
+  );
 
   get selectedActivity(): string | null {
     return this.selectionForm.get('activity')?.value ?? null;
@@ -70,9 +76,11 @@ export class WorkoutComponent {
   }
 
   onSubmitDetails(): void {
+    this.errorMessage = null;
     if (!this.selectionForm.valid || !this.detailsForm.valid) {
       this.selectionForm.markAllAsTouched();
       this.detailsForm.markAllAsTouched();
+      this.errorMessage = "Fill in all fields";
       return;
     }
 
@@ -82,7 +90,7 @@ export class WorkoutComponent {
 
         const payload: Workout = {
           id: Math.floor(Math.random() * 1000000) + 1,
-          user: user,
+          userId: user.id,
           category: this.selectedActivity as string,
           duration: this.detailsForm.get('time')?.value as number,
           distance: this.detailsForm.get('distance')?.value ?? null,
@@ -94,7 +102,7 @@ export class WorkoutComponent {
     ).subscribe(success => {
       if (success) {
         this.currentUser$.subscribe(user => {
-          if(user) this.router.navigate(['/user/', user.id]);
+          if (user) this.router.navigate(['/user/', user.id]);
         });
       }
     });

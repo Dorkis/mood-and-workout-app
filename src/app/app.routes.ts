@@ -17,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'user/:id',
     component: UserComponent,
-    title: 'Desktop - your best mood and workout app'
+    title: 'User - your best mood and workout app'
   },
+  {
+    path: '**',
+    redirectTo: '/'
+  }
 ];

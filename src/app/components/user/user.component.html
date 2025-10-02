@@ -1,5 +1,5 @@
 <div class="user-container">
-  <h2>User Workouts</h2>
+  <h2>Your Workouts</h2>
 
   <div class="sort-control" *ngIf="categories$ | async as categories">
     <label>Filter by category:</label>
@@ -11,10 +11,16 @@
 
   <ul class="workout-list">
     <li *ngFor="let workout of sortedWorkouts$ | async; trackBy: trackByWorkout">
-      <strong>{{ workout.category }}</strong> - 
+      <div class="workout-category">
+        <img [src]="workout.category + '.png'" [alt]="workout.category" />
+        <strong>{{ workout.category }}</strong>
+      </div>
       Duration: {{ workout.duration }} min
       <span *ngIf="workout.distance">- Distance: {{ workout.distance }} km</span>
       <div class="created-at">Created at: {{ workout.createdAt | date:'short' }}</div>
+
+      <button (click)="updateWorkout(workout)">Edit</button>
+      <button (click)="deleteWorkout(workout.id)">Delete</button>
     </li>
   </ul>
 </div>

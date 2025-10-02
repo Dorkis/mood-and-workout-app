@@ -1,12 +1,32 @@
 <div class="mood">
-  <section class="description">
-    <h2>{{ description }}</h2>
-  </section>
-  <section class="result">
-    <div class="result__options" *ngFor="let mood of moods$ | async; trackBy: trackByMood"
-      (click)="saveMood(mood.value)">
-      <img [src]="mood.photo" [alt]="mood.title" class="result__photo" />
-      <p class="result__title">{{ mood.title }}</p>
+
+    <div *ngIf="!showMoodSelection; else moodTpl">
+      <section class="description">
+        <div *ngIf="selectedMood$ | async as mood" class="mood__title">
+          <h2>{{mood.description}}</h2>
+          <img [src]="mood.photo" [alt]="mood.title" class="description__photo">
+        </div>
+      </section>
+      <section class="buttons">
+        <button *ngIf="!showMoodSelection" (click)="enableMoodSelection()" class="btn btn--primary">
+         If something changed, let me know!
+        </button>
+        <span>or</span>
+        <a [routerLink]="['/workout']" class="btn btn--secondary">Do some activities</a>
+      </section>
     </div>
-  </section>
-</div>
+
+    <ng-template #moodTpl>
+      <section class="description">
+        <h2>{{ description }}</h2>
+      </section>
+      <section class="result">
+        <div class="result__options" *ngFor="let mood of moods$ | async; trackBy: trackByMood"
+          (click)="saveMood(mood.id)">
+          <img [src]="mood.photo" [alt]="mood.title" class="result__photo" />
+          <p class="result__title">{{ mood.title }}</p>
+        </div>
+      </section>
+
+    </ng-template>
+ 

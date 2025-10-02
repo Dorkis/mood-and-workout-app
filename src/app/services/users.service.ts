@@ -10,16 +10,7 @@ import { environment } from '../environments/environment';
 })
 export class UsersService {
 
-  constructor(private http: HttpClient) {}
-
-  saveUserMood(mood: number): Observable<boolean> {
-    const userId = environment.userId;
-    return this.http.patch(`${environment.userUrl}/${userId}`, { todayMood: mood })
-      .pipe(
-        map(() => true),
-        catchError(() => of(false))
-      );
-  }
+  constructor(private http: HttpClient) { }
 
   getCurrentUser(): Observable<User | null> {
     const userId = environment.userId;
@@ -30,12 +21,12 @@ export class UsersService {
       );
   }
 
-  getUserMood(): Observable<number | null> {
-    const userId = environment.userId;
+  findUserById(userId: number): Observable<User | null> {
     return this.http.get<User>(`${environment.userUrl}/${userId}`)
       .pipe(
-        map(user => user.todayMood ?? null),
+        map(user => user ?? null),
         catchError(() => of(null))
       );
   }
+
 }

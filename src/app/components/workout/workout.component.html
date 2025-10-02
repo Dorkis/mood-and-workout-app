@@ -1,13 +1,12 @@
-<div>
-  <h2>Choose your activity</h2>
+<div class="workout">
+  <h2>What have you done today?</h2>
+  <p class="description">Add your activities:</p>
 
   <form [formGroup]="selectionForm" (ngSubmit)="$event.preventDefault()">
-    <label>Activities</label>
-
-    <ng-container *ngIf="showLightSelector | async; else intenseTpl">
+    <ng-container *ngIf="showLightSelector$ | async; else intenseTpl">
       <div class="activity-radio-group">
         <label *ngFor="let a of lightActivities" class="activity-radio">
-          <input type="radio" formControlName="activity" [value]="a" />
+          <input type="radio" formControlName="activity" [value]="a" [class.error]="selectionForm.get('activity')?.touched && selectionForm.get('activity')?.invalid"/>
           <img [src]="a + '.png'" [alt]="a" />
           <span>{{ a }}</span>
         </label>
@@ -17,7 +16,7 @@
     <ng-template #intenseTpl>
       <div class="activity-radio-group">
         <label *ngFor="let a of intenseActivities" class="activity-radio">
-          <input type="radio" formControlName="activity" [value]="a" />
+          <input type="radio" formControlName="activity" [value]="a" [class.error]="selectionForm.get('activity')?.touched && selectionForm.get('activity')?.invalid"/>
           <img [src]="a + '.png'" [alt]="a" />
           <span>{{ a }}</span>
         </label>
@@ -28,19 +27,15 @@
   <form [formGroup]="detailsForm" (ngSubmit)="onSubmitDetails()" *ngIf="selectedActivity">
     <div>
       <label for="time">Time (minutes)</label>
-      <input id="time" type="number" formControlName="time" min="1" />
+      <input id="time" type="number" formControlName="time" min="1" [class.error]="detailsForm.get('time')?.touched && detailsForm.get('time')?.invalid"/>
     </div>
 
     <div *ngIf="shouldShowDistance">
       <label for="distance">Distance (km)</label>
-      <input id="distance" type="number" formControlName="distance" step="0.1" min="0.1" />
+      <input id="distance" type="number" formControlName="distance" step="0.1" min="0.1" [class.error]="detailsForm.get('distance')?.touched && detailsForm.get('distance')?.invalid" />
     </div>
-
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <button type="submit">Submit</button>
   </form>
-
-  <pre>
-    Selected mood: {{ userMood$ | async }}
-    Selected activity: {{ selectedActivity }}
-  </pre>
+  
 </div>

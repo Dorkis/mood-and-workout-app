@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Edit Workout</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <input matInput formControlName="category" readonly>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Duration (minutes)</mat-label>
+    <input matInput type="number" formControlName="duration">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngIf="!hideDistance">
+    <mat-label>Distance (km)</mat-label>
+    <input matInput type="number" formControlName="distance" step="0.1">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="cancel" (click)="cancel()">Cancel</button>
+  <button class="save" (click)="save()">Save</button>
+</mat-dialog-actions>

@@ -10,6 +10,6 @@ import { environment } from './environments/environment';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Your best mood and workout application is waiting for your move!';
+  title = 'Get ready - your best mood and workout app is here!';
   userId = environment.userId;
 }

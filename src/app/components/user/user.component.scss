@@ -65,9 +65,21 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       }
 
+      .workout-category {
+        display: flex;
+        justify-self: center;
+        gap: 1rem;
+
+        img {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+
       strong {
         font-size: 1.6rem;
         color: #111827; // gray-900
+        align-self: center;
       }
 
       span {
@@ -81,4 +93,47 @@
       }
     }
   }
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, color 0.2s;
+
+    &.edit {
+      background-color: #6366f1; // indigo-500
+      color: #fff;
+
+      &:hover {
+        background-color: #4f46e5; // indigo-600
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(99, 102, 241, 0.4);
+      }
+    }
+
+    &.delete {
+      background-color: #ef4444; // red-500
+      color: #fff;
+
+      &:hover {
+        background-color: #dc2626; // red-600
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+      }
+    }
+  }
+
 }

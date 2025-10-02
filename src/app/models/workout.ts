@@ -2,9 +2,9 @@ import { User } from "./user"
 
 export interface Workout {
   id: number,
-  user: User,
+  userId: number,
   category: string,
   duration: number,
   distance: number | null,
-  createdAt: Date
+  createdAt: Date | string
 }

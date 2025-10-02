@@ -13,21 +13,41 @@ export class WorkoutsService {
 
   getWorkoutByUserId(userId: number): Observable<Workout[]> {
     return this.http
-      .get<Workout[]>(`${environment.workoutUrl}?user.id=${userId}`)
+      .get<Workout[]>(`${environment.workoutUrl}?userId=${userId}`)
       .pipe(
         map(workouts => workouts ?? []),
         catchError(() => of([]))
       );
   }
 
+  getWorkoutById(id: number): Observable<Workout | null> {
+    return this.http.get<Workout>(`${environment.workoutUrl}/${id}`).pipe(
+      catchError(() => of(null))
+    );
+  }
+
   addWorkout(workout: Workout): Observable<boolean> {
-    return this.http
-      .post(environment.workoutUrl, workout, {
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .pipe(
-        map(() => true),
-        catchError(() => of(false))
-      );
+    return this.http.post(environment.workoutUrl, workout, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  updateWorkout(workout: Workout): Observable<boolean> {
+    return this.http.put(`${environment.workoutUrl}/${workout.id}`, workout, {
+      headers: { 'Content-Type': 'application/json' }
+    }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  deleteWorkout(id: number): Observable<boolean> {
+    return this.http.delete(`${environment.workoutUrl}/${id}`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }
