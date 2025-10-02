@@ -32,7 +32,7 @@ The app includes three main routes:
 
 ## Project Structure
 
-<pre> ```bash
+<pre> 
 src/
 │
 ├── app/
@@ -44,7 +44,7 @@ src/
 │
 ├── public/ # Photos
 │ 
-``` </pre>
+</pre>
 ---
 
 ## Technologies Used
