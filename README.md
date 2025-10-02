@@ -7,7 +7,7 @@ The **Mood & Workout** application is an Angular project designed to demonstrate
 
 ## Features
 - **Mood Selection:** Choose from various moods upon entering the application.
-- **Dynamic Workouts:** Add workouts that vary depending on the selected mood.
+- **Dynamic Workouts:** Add workouts that depending on the selected mood.
 - **Workout Details:** Each workout can include:
   - **Category** (e.g., run, bike, swim, walk, stretch, sleep)
   - **Time**
@@ -32,6 +32,7 @@ The app includes three main routes:
 
 ## Project Structure
 
+<pre> ```bash
 src/
 │
 ├── app/
@@ -43,7 +44,7 @@ src/
 │
 ├── public/ # Photos
 │ 
-
+``` </pre>
 ---
 
 ## Technologies Used
@@ -59,6 +60,7 @@ src/
 ```bash
 git clone git@github.com:Dorkis/mood-and-workout-app.git
 cd mood-workout-app
+```
 
 2. **Install dependencies**
 
