@@ -1,7 +1,7 @@
 # Mood & Workout Angular App
 
 ## Overview
-The **Mood & Workout** application is an Angular project designed to demonstrate dynamic form rendering based on user choices. Users can select a mood, then add workouts depending on mood, showcasing the flexibility of Angular forms and conditional rendering.
+The **Mood & Workout** application is an Angular project designed to demonstrate dynamic form rendering based on user choices. Users can select a mood and then add workouts depending on mood. The application presents the flexibility of Angular forms and conditional rendering.
 
 ---
 
